@@ -1,0 +1,117 @@
+.main-page {
+    font-family: Arial, sans-serif;
+  }
+  
+  .filters-panel {
+    background-color: #f0f0f0;
+    padding: 10px;
+  }
+  
+  .filters-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .main-content {
+    display: flex;
+    margin-top: 20px;
+}
+  
+.sidebar {
+    width: 20%;
+    padding: 10px;
+    background-color: #e8e8e8;
+}
+  
+.sidebar h4 {
+    margin-bottom: 15px;
+}
+  
+.sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+/* Стили для контрагентов (с иконками слева) */
+.sidebar h4:first-child + ul li {
+    margin: 12px 0;
+    padding-left: 25px; /* Отступ для иконки слева */
+    position: relative;
+}
+
+.sidebar h4:first-child + ul li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-image: url('../folder_icon.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+/* Стили для объектов (без иконок) */
+.sidebar h4:last-child + ul li {
+    margin: 12px 0;
+}
+  
+  .center-panel {
+    width: 80%;
+    padding: 10px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+
+  .action-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 20px;
+    gap: 10px;
+  }
+  
+  .create-button {
+    padding: 10px 18px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .create-button:hover {
+    background-color: #155fa0;
+  }
+  
+  .logout-button {
+    padding: 10px 18px;
+    background-color: #c62828;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #a11e1e;
+  }
+  
+  
+  

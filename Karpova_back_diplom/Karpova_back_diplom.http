@@ -1,0 +1,60 @@
+﻿@host = https://localhost:5001
+
+
+
+###  Авторизация пользователя (упрощённая)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "login": "admin",
+  "password": "1234"
+}
+
+###
+
+###  Получить всех контрагентов
+GET {{host}}/api/contractors
+Accept: application/json
+
+###
+
+###  Получить все объекты
+GET {{host}}/api/objects
+Accept: application/json
+
+###
+
+###  Получить все органы лицензирования
+GET {{host}}/api/licenseauthorities
+Accept: application/json
+
+###
+
+###  Получить все цены
+GET {{host}}/api/prices
+Accept: application/json
+
+###
+
+###  Создание договора
+POST {{host}}/api/contracts
+Content-Type: application/json
+
+{
+  "name": "Договор поставки газа",
+  "number_c": "DG-2025-001",
+  "valid_from": "2025-01-01",
+  "valid_to": "2025-12-31",
+  "contractor_id": 1,
+  "license_number": "ЛЦ-789456",
+  "license_date": "2024-05-01",
+  "authority": 2,
+  "user_id": 1
+}
+
+###
+
+###  Получить договор по ID
+GET {{host}}/api/contracts/1
+Accept: application/json
