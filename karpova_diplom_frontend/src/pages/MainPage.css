@@ -13,50 +13,28 @@
     flex-wrap: wrap;
   }
   
-  .main-content {
-    display: flex;
-    margin-top: 20px;
+.main-content {
+  display: flex;
+  margin-top: 20px;
 }
-  
+
 .sidebar {
-    width: 20%;
-    padding: 10px;
-    background-color: #e8e8e8;
+  width: 25%;
+  padding: 10px;
+  background-color: #e8e8e8;
+  overflow-x: auto;
 }
-  
+
 .sidebar h4 {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
-  
+
 .sidebar ul {
-    list-style: none;
-    padding-left: 0;
+  list-style: none;
+  padding-left: 0;
 }
 
-/* Стили для контрагентов (с иконками слева) */
-.sidebar h4:first-child + ul li {
-    margin: 12px 0;
-    padding-left: 25px; /* Отступ для иконки слева */
-    position: relative;
-}
 
-.sidebar h4:first-child + ul li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 16px;
-    height: 16px;
-    background-image: url('../folder_icon.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-}
-
-/* Стили для объектов (без иконок) */
-.sidebar h4:last-child + ul li {
-    margin: 12px 0;
-}
   
   .center-panel {
     width: 80%;
