@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../api/user';
 import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';  // Импорт стилей для страницы входа
 
 function LoginPage({ onLogin }) {
   const [form, setForm] = useState({ login: '', password: '' });
@@ -27,12 +28,14 @@ function LoginPage({ onLogin }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Вход</h2>
-      <input name="login" placeholder="Логин" onChange={handleChange} />
-      <input type="password" name="password" placeholder="Пароль" onChange={handleChange} />
-      <button type="submit">Войти</button>
-    </form>
+    <div className="login-page">
+      <form onSubmit={handleSubmit}>
+        <h2>Вход</h2>
+        <input name="login" placeholder="Логин" onChange={handleChange} />
+        <input type="password" name="password" placeholder="Пароль" onChange={handleChange} />
+        <button type="submit">Войти</button>
+      </form>
+    </div>
   );
 }
 

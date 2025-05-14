@@ -1,18 +1,19 @@
+/* Основной контейнер */
 .main-page {
-    font-family: Arial, sans-serif;
-  }
-  
-  .filters-panel {
-    background-color: #f0f0f0;
-    padding: 10px;
-  }
-  
-  .filters-row {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
+  font-family: Arial, sans-serif;
+}
+
+.filters-panel {
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.filters-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .main-content {
   display: flex;
   margin-top: 20px;
@@ -39,21 +40,21 @@
 }
 
 .scrollable-list {
-  max-height: 240px;           
-  overflow-y: auto;            
-  overflow-x: auto;            
+  max-height: 470px;
+  overflow-y: auto;
+  overflow-x: auto;
   padding-right: 5px;
   padding-bottom: 5px;
   white-space: nowrap;
 }
 
 .scrollable-list ul {
-  min-width: max-content; 
+  min-width: max-content;
 }
 
 .scrollable-list::-webkit-scrollbar {
-  width: 8px;          
-  height: 8px;         
+  width: 8px;
+  height: 8px;
 }
 
 .scrollable-list::-webkit-scrollbar-thumb {
@@ -65,64 +66,114 @@
   background: transparent;
 }
 
-  
-  .center-panel {
-    width: 80%;
-    padding: 10px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px;
-    background-color: #fff;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-  }
+.center-panel {
+  width: 100%;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-  .action-buttons-container {
-    display: flex;
-    justify-content: flex-end;
-    padding: 10px 20px;
-    gap: 10px;
-  }
-  
-  .create-button {
-    padding: 10px 18px;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .create-button:hover {
-    background-color: #155fa0;
-  }
-  
-  .logout-button {
-    padding: 10px 18px;
-    background-color: #c62828;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background-color: #a11e1e;
-  }
-  
-  
-  .form-wrapper {
+/* Общая таблица */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+/* Прокручиваемые секции с таблицами */
+.contracts-section,
+.prices-table,
+.prices-graph {
+  width: 100%; /* Убираем min-width, чтобы они занимали всю ширину доступного пространства */
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Секция цен и графика */
+.prices-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Стили для скроллинга */
+.scrollable-table,
+.scrollable-tree {
+  overflow-x: auto; /* Горизонтальный скроллинг */
+  overflow-y: auto; /* Вертикальный скроллинг */
+  width: 100%;
+  max-height: 300px; /* Ограничение по высоте */
+  box-sizing: border-box; /* Чтобы padding и border не влияли на ширину */
+}
+
+/* Прокрутка */
+.scrollable-table::-webkit-scrollbar,
+.scrollable-tree::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb,
+.scrollable-tree::-webkit-scrollbar-thumb {
+  background-color: #a0a0a0;
+  border-radius: 4px;
+}
+
+.scrollable-table::-webkit-scrollbar-track,
+.scrollable-tree::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Кнопки и формы */
+.action-buttons-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.create-button {
+  padding: 10px 18px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.create-button:hover {
+  background-color: #155fa0;
+}
+
+.logout-button {
+  padding: 10px 18px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #a11e1e;
+}
+
+.form-wrapper {
   max-width: 600px;
   margin: 0 auto;
 }
@@ -141,5 +192,3 @@
 .form-input {
   padding: 8px;
 }
-
-  
