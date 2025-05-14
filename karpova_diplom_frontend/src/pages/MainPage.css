@@ -34,6 +34,36 @@
   padding-left: 0;
 }
 
+.sidebar-section {
+  margin-bottom: 20px;
+}
+
+.scrollable-list {
+  max-height: 240px;           
+  overflow-y: auto;            
+  overflow-x: auto;            
+  padding-right: 5px;
+  padding-bottom: 5px;
+  white-space: nowrap;
+}
+
+.scrollable-list ul {
+  min-width: max-content; 
+}
+
+.scrollable-list::-webkit-scrollbar {
+  width: 8px;          
+  height: 8px;         
+}
+
+.scrollable-list::-webkit-scrollbar-thumb {
+  background-color: #a0a0a0;
+  border-radius: 4px;
+}
+
+.scrollable-list::-webkit-scrollbar-track {
+  background: transparent;
+}
 
   
   .center-panel {
@@ -92,4 +122,24 @@
   }
   
   
+  .form-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-input {
+  padding: 8px;
+}
+
   

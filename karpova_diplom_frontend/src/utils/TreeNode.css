@@ -8,23 +8,30 @@ display: flex;
 align-items: center;
 cursor: pointer;
 gap: 6px;
+min-height: 28px; 
+padding-left: 4px;
 }
 
 .arrow {
 width: 16px;
+min-width: 16px;
 text-align: center;
 color: #004af7;
+user-select: none;
 }
 
 .folder-icon {
 width: 16px;
 height: 16px;
-  background-image: url('../folder_icon.png'); /* путь к иконке */
+background-image: url('../folder_icon.png');
 background-size: contain;
 background-repeat: no-repeat;
 background-position: center;
+flex-shrink: 0; 
 }
 
 .node-name {
 white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
 }

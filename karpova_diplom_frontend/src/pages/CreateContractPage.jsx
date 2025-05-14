@@ -2,10 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { getContractors } from '../api/contractors';
 import { getLicenses } from '../api/license';
 import { createContract } from '../api/contracts';
+import { useNavigate } from 'react-router-dom';
+import './ContractForm.css';
 
 function CreateContractPage() {
   const [contractors, setContractors] = useState([]);
   const [licenses, setLicenses] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: '',
     number_c: '',
@@ -15,7 +20,9 @@ function CreateContractPage() {
     license_number: '',
     license_date: '',
     authority: '',
-    user_id: localStorage.getItem('userId')
+    user_id: localStorage.getItem('userId'),
+    finished: false,
+    // file: null  // Удалено для отправки без файла
   });
 
   useEffect(() => {
@@ -24,42 +31,132 @@ function CreateContractPage() {
   }, []);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setForm({
+      ...form,
+      [name]: type === 'checkbox' ? checked : value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createContract(form);
-    alert('Договор создан!');
+    const { /* file, */ ...formWithoutFile } = form; // исключаем file
+    await createContract(formWithoutFile);
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setForm({
+      name: '',
+      number_c: '',
+      valid_from: '',
+      valid_to: '',
+      contractor_id: '',
+      license_number: '',
+      license_date: '',
+      authority: '',
+      user_id: localStorage.getItem('userId'),
+      finished: false,
+      // file: null
+    });
+  };
+
+  const handleGoToMain = () => {
+    navigate('/main');
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Создание договора</h2>
-      <input name="name" placeholder="Наименование" onChange={handleChange} />
-      <input name="number_c" placeholder="Номер договора" onChange={handleChange} />
-      <input type="date" name="valid_from" onChange={handleChange} />
-      <input type="date" name="valid_to" onChange={handleChange} />
+    <div className="contract-form-container">
+      <form className="contract-form" onSubmit={handleSubmit}>
+        <h2>Создание договора</h2>
 
-      <select name="contractor_id" onChange={handleChange}>
-        <option>Выберите контрагента</option>
-        {contractors.map(c => (
-          <option key={c.id} value={c.id}>{c.name}</option>
-        ))}
-      </select>
+        <label>
+          <input type="checkbox" name="finished" checked={form.finished} onChange={handleChange} />
+          Закончил действие
+        </label>
 
-      <input name="license_number" placeholder="Номер лицензии" onChange={handleChange} />
-      <input type="date" name="license_date" onChange={handleChange} />
+        <label>
+          Наименование:
+          <input name="name" value={form.name} onChange={handleChange} />
+        </label>
 
-      <select name="authority" onChange={handleChange}>
-        <option>Выберите орган</option>
-        {licenses.map(l => (
-          <option key={l.id} value={l.id}>{l.name}</option>
-        ))}
-      </select>
+        <label>
+          Номер:
+          <input name="number_c" value={form.number_c} onChange={handleChange} />
+        </label>
 
-      <button type="submit">Создать</button>
-    </form>
+        <label>
+          Действует с:
+          <input type="date" name="valid_from" value={form.valid_from} onChange={handleChange} />
+        </label>
+
+        <label>
+          Действует по:
+          <input type="date" name="valid_to" value={form.valid_to} onChange={handleChange} />
+        </label>
+
+        <label>
+          Контрагент:
+          <select name="contractor_id" value={form.contractor_id} onChange={handleChange}>
+            <option value="">Выберите контрагента</option>
+            {contractors.map(c => (
+              <option key={c.id} value={c.id}>{c.fullname}</option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          Номер лицензии:
+          <input name="license_number" value={form.license_number} onChange={handleChange} />
+        </label>
+
+        <label>
+          Дата выдачи лицензии:
+          <input type="date" name="license_date" value={form.license_date} onChange={handleChange} />
+        </label>
+
+        <label>
+          Орган выдавший лицензию:
+          <select name="authority" value={form.authority} onChange={handleChange}>
+            <option value="">Выберите орган</option>
+            {licenses.map(l => (
+              <option key={l.id} value={l.id}>{l.name}</option>
+            ))}
+          </select>
+        </label>
+
+        <div className="form-meta">
+          Изменено: {new Date().toLocaleString('ru-RU')}<br />
+          Изменил: {localStorage.getItem('fullName')}
+        </div>
+
+        <div class="form-actions">
+          <button type="submit">Сохранить</button>
+
+          <button type="button" onClick={handleCancel} className="cancel-button">
+            Отмена
+          </button>
+
+          <button type="button" onClick={handleGoToMain} className="go-to-main-button">
+            Вернуться на главную
+          </button>
+        </div>
+
+      </form>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Договор успешно создан!</h3>
+            <button onClick={closeModal} className="close-modal-btn">Закрыть</button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

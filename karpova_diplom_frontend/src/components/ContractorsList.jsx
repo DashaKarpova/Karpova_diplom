@@ -13,7 +13,7 @@ function ContractorsList() {
       <h2>Контрагенты</h2>
       <ul>
         {contractors.map(contractor => (
-          <li key={contractor.id}>{contractor.name}</li>
+          <li key={contractor.id}>{contractor.fullname}</li>
         ))}
       </ul>
     </div>

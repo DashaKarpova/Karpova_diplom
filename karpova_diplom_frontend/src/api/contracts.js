@@ -6,6 +6,10 @@ export const getContracts = async () => {
 };
 
 export const createContract = async (contract) => {
-  const response = await axios.post('/api/contracts', contract);
+  const response = await axios.post('/api/contracts', contract, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
   return response.data;
 };

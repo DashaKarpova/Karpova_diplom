@@ -47,6 +47,12 @@ function MainPage() {
         <button onClick={() => navigate('/create')} className="create-button">
           Создать договор
         </button>
+        <button onClick={() => navigate('/service')} className="create-button">
+          Услуга
+        </button>
+        <button onClick={() => navigate('/object')} className="create-button">
+          Выбор объектов
+        </button>
         <button onClick={handleLogout} className="logout-button">
           Выйти
         </button>
@@ -54,12 +60,21 @@ function MainPage() {
 
       <div className="main-content">
         <div className="sidebar">
-          <h4>Контрагенты</h4>
-          <TreeView data={contractors} />
+          <div className="sidebar-section">
+      <h4>Контрагенты</h4>
+      <div className="scrollable-list">
+        <TreeView data={contractors} />
+      </div>
+    </div>
 
-          <h4>Объекты</h4>
-          <TreeView data={objects} />
-        </div>
+    <div className="sidebar-section">
+      <h4>Объекты</h4>
+      <div className="scrollable-list">
+        <TreeView data={objects} />
+      </div>
+    </div>
+  </div>
+
 
         <div className="center-panel">
           <h3>Договоры</h3>
