@@ -6,7 +6,7 @@ import CreateContractPage from './pages/CreateContractPage';
 /*import ContractsPage from './pages/ContractsPage';*/
 import MainPage from './pages/MainPage'; 
 import ServicesPage from './pages/Services'; 
-import ObjectsPage from './pages/ObjectPage'; 
+
 
 
 
@@ -25,7 +25,6 @@ function App() {
         <Route path="/main" element={<MainPage />} />            
         <Route path="/create" element={<CreateContractPage />} />
         <Route path="/service" element={<ServicesPage />} />
-        <Route path="/object" element={<ObjectsPage />} />
       </Routes>
     </Router>
   );

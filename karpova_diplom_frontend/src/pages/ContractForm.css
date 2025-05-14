@@ -8,6 +8,7 @@ border: 1px solid #dcdcdc;
 border-radius: 6px;
 font-family: sans-serif;
 color: #333;
+box-sizing: border-box;
 }
 
 /* Заголовок формы */
@@ -17,22 +18,35 @@ margin-bottom: 20px;
 color: #444;
 }
 
-/* Метки и поля */
+/* Общий стиль для меток и полей */
 .contract-form label {
 display: block;
-margin-bottom: 15px;
+margin-bottom: 10px;
 font-size: 14px;
+font-weight: 500; /* Сделать метки чуть жирнее для лучшей читаемости */
 }
 
+/* Общий стиль для input, select, textarea */
 .contract-form input,
-.contract-form select {
+.contract-form select,
+.contract-form textarea {
 width: 100%;
-padding: 8px;
+padding: 10px;
 border: 1px solid #ccc;
 background-color: #fff;
 border-radius: 4px;
 margin-top: 4px;
 font-size: 14px;
+box-sizing: border-box; /* Учитываем паддинг в общей ширине */
+transition: border-color 0.3s ease;
+}
+
+/* Эффект при фокусе на полях */
+.contract-form input:focus,
+.contract-form select:focus,
+.contract-form textarea:focus {
+border-color: #2980b9;
+outline: none;
 }
 
 /* Чекбокс */
@@ -43,32 +57,32 @@ margin-right: 8px;
 
 /* Контейнер для кнопок */
 .contract-form .form-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  margin-top: 20px;
+display: flex;
+gap: 12px;
+justify-content: center;
+margin-top: 20px;
 }
 
-/* Общий стиль всех трёх кнопок */
+/* Общий стиль для кнопок */
 .contract-form .form-actions button {
-  padding: 10px 25px;
-  border: none;
-  border-radius: 4px;
-  background-color: #4a4a4a;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.3s;
-  min-width: 160px;
-  width: auto; /* чтобы не растягивались на 100% */
+padding: 10px 25px;
+border: none;
+border-radius: 6px;
+background-color: #2980b9;
+color: white;
+cursor: pointer;
+font-size: 14px;
+transition: background-color 0.3s ease, transform 0.2s ease;
+min-width: 160px;
+width: auto;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Эффект при наведении */
 .contract-form .form-actions button:hover {
-  background-color: #2980b9;
-  transform: translateY(-1px);
+background-color: #155fa0;
+transform: translateY(-2px);
 }
-
 
 /* Блок с мета-информацией */
 .form-meta {
@@ -101,9 +115,10 @@ width: 100%;
 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Кнопка закрытия модального окна */
 .close-modal-btn {
 margin-top: 15px;
-background-color: #4a4a4a;
+background-color: #2980b9;
 color: white;
 border: none;
 padding: 8px 16px;
@@ -111,6 +126,7 @@ border-radius: 4px;
 cursor: pointer;
 }
 
+/* Эффект при наведении на кнопку закрытия */
 .close-modal-btn:hover {
-background-color: #3a3a3a;
+background-color: #155fa0;
 }

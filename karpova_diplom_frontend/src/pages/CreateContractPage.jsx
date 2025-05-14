@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getContractors } from '../api/contractors';
 import { getLicenses } from '../api/license';
+import { getObjects } from '../api/objects';  // Добавляем импорт для объектов
 import { createContract } from '../api/contracts';
 import { useNavigate } from 'react-router-dom';
 import './ContractForm.css';
@@ -8,6 +9,7 @@ import './ContractForm.css';
 function CreateContractPage() {
   const [contractors, setContractors] = useState([]);
   const [licenses, setLicenses] = useState([]);
+  const [objects, setObjects] = useState([]);  // Состояние для объектов
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -17,17 +19,18 @@ function CreateContractPage() {
     valid_from: '',
     valid_to: '',
     contractor_id: '',
+    object_id: '',  // Добавлено для объекта
     license_number: '',
     license_date: '',
     authority: '',
     user_id: localStorage.getItem('userId'),
     finished: false,
-    // file: null  // Удалено для отправки без файла
   });
 
   useEffect(() => {
     getContractors().then(setContractors);
     getLicenses().then(setLicenses);
+    getObjects().then(setObjects);  // Получаем список объектов
   }, []);
 
   const handleChange = (e) => {
@@ -52,12 +55,12 @@ function CreateContractPage() {
       valid_from: '',
       valid_to: '',
       contractor_id: '',
+      object_id: '',  // Очистка объекта
       license_number: '',
       license_date: '',
       authority: '',
       user_id: localStorage.getItem('userId'),
       finished: false,
-      // file: null
     });
   };
 
@@ -109,6 +112,17 @@ function CreateContractPage() {
           </select>
         </label>
 
+        {/* Добавляем выбор объекта */}
+        <label>
+          Объект:
+          <select name="object_id" value={form.object_id} onChange={handleChange}>
+            <option value="">Выберите объект</option>
+            {objects.map(o => (
+              <option key={o.id} value={o.id}>{o.name}</option>
+            ))}
+          </select>
+        </label>
+
         <label>
           Номер лицензии:
           <input name="license_number" value={form.license_number} onChange={handleChange} />
@@ -134,7 +148,7 @@ function CreateContractPage() {
           Изменил: {localStorage.getItem('fullName')}
         </div>
 
-        <div class="form-actions">
+        <div className="form-actions">
           <button type="submit">Сохранить</button>
 
           <button type="button" onClick={handleCancel} className="cancel-button">

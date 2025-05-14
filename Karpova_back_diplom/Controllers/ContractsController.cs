@@ -38,6 +38,7 @@ namespace Karpova_back_diplom.Controllers
                 valid_from = dto.valid_from.ToUniversalTime(),
                 valid_to = dto.valid_to.ToUniversalTime(),
                 contractor_id = dto.contractor_id,
+                object_id = dto.object_id,
                 license_number = dto.license_number,
                 license_date = dto.license_date.ToUniversalTime(),
                 authority = dto.authority,
@@ -88,6 +89,8 @@ namespace Karpova_back_diplom.Controllers
         public DateTime valid_from { get; set; }
         public DateTime valid_to { get; set; }
         public int contractor_id { get; set; }
+
+        public int object_id { get; set; }
         public string license_number { get; set; }
         public DateTime license_date { get; set; }
         public int authority { get; set; }

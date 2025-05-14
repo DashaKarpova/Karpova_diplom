@@ -16,6 +16,11 @@ namespace Karpova_back_diplom.Models
         [ForeignKey("contractor_id")]
         public Contractor contractor { get; set; }
 
+        public int object_id { get; set; }
+
+        [ForeignKey("object_id")]
+        public Objects objects{ get; set; }
+
         public string license_number { get; set; }
         public DateTime license_date { get; set; }
 
