@@ -1,32 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import './ContractDetails.css';
 
 function ContractDetailsPage() {
 const { id } = useParams();
 const [contract, setContract] = useState(null);
 
 useEffect(() => {
-    axios.get(`/api/contracts/${id}`).then(res => {
-    setContract(res.data);
+    axios.get(`/api/contracts/${id}`).then(response => {
+    setContract(response.data);
     });
 }, [id]);
 
-if (!contract) return <p>Загрузка...</p>;
+if (!contract) return <p style={{ padding: '20px' }}>Загрузка...</p>;
 
 return (
-<div className="contract-details">
+<div className="contract-details-container">
     <h2>Карточка договора</h2>
-    <p><strong>Номер:</strong> {contract.number_c}</p>
-    <p><strong>Наименование:</strong> {contract.name}</p>
-    <p><strong>Действует с:</strong> {contract.valid_from?.split('T')[0]}</p>
-    <p><strong>Действует по:</strong> {contract.valid_to?.split('T')[0]}</p>
-    <p><strong>Контрагент:</strong> {contract.contractor?.fullname}</p>
-    <p><strong>Номер лицензии:</strong> {contract.license_number}</p>
-    <p><strong>Дата лицензии:</strong> {contract.license_date?.split('T')[0]}</p>
-    <p><strong>Орган выдавший лицензию:</strong> {contract.license?.name}</p>
-    <p><strong>Изменил:</strong> {contract.user?.fullName}</p>
-    <p><strong>Дата изменения:</strong> {contract.date_of_change?.split('T')[0]}</p>
+    <table className="contract-details-table">
+    <tbody>
+        <tr><th>Номер</th><td>{contract.number_c}</td></tr>
+        <tr><th>Наименование</th><td>{contract.name}</td></tr>
+        <tr><th>Действует с</th><td>{contract.valid_from?.split('T')[0]}</td></tr>
+        <tr><th>Действует по</th><td>{contract.valid_to?.split('T')[0]}</td></tr>
+        <tr><th>Контрагент</th><td>{contract.contractor?.fullname}</td></tr>
+        <tr><th>Номер лицензии</th><td>{contract.license_number}</td></tr>
+        <tr><th>Дата выдачи лицензии</th><td>{contract.license_date?.split('T')[0]}</td></tr>
+        <tr><th>Орган, выдавший лицензию</th><td>{contract.license?.name}</td></tr>
+        <tr><th>Кто изменил</th><td>{contract.user?.fullName}</td></tr>
+        <tr><th>Дата изменения</th><td>{contract.date_of_change?.split('T')[0]}</td></tr>
+    </tbody>
+    </table>
 </div>
 );
 }
