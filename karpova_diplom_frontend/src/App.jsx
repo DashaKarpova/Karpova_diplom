@@ -7,6 +7,7 @@ import CreateContractPage from './pages/CreateContractPage';
 import MainPage from './pages/MainPage'; 
 import ContractDetailsPage from './pages/ContractDetailsPage'; 
 import ServicesPage from './pages/Services';
+import CreatePrices from './pages/CreatePrices';
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/create" element={<CreateContractPage />} />
         <Route path="/contract/:id" element={<ContractDetailsPage />} />
         <Route path="/contract/:id/service" element={<ServicesPage />} />
+        <Route path="/contract/:id/prices" element={<CreatePrices />} />
 
       </Routes>
     </Router>

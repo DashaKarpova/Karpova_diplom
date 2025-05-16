@@ -43,6 +43,14 @@ return (
         Создать услугу
         </button>
     </div>
+        <div style={{ marginTop: '40px', textAlign: 'right' }}>
+        <button
+        className="create-button"
+        onClick={() => navigate(`/contract/${id}/prices`)}
+        >
+        Создать цену
+        </button>
+    </div>
     </div>
 );
 }

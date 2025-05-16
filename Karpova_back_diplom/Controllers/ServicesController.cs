@@ -22,7 +22,6 @@ namespace Karpova_back_diplom.Controllers
             [FromBody] CreateServicesDto dto)
         {
 
-            Console.WriteLine($"CONTRACT ID: {contractId}, USER ID: {dto.user_id}");
             // Проверка существования договора из URL
             var contract = await _context.contracts
                 .FirstOrDefaultAsync(c => c.id == contractId);
