@@ -13,7 +13,6 @@ namespace Karpova_back_diplom.Data
         public DbSet<Prices> prices { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Contract> contracts { get; set; }
-
         public DbSet<Services> services { get; set; }
         public DbSet<Operation> operations { get; set; }
         public DbSet<Resource> resources { get; set; }
