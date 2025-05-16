@@ -69,15 +69,14 @@ namespace Karpova_back_diplom.Controllers
             return Ok(createdService);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Services>>> GetAllServices()
+        [HttpGet("by-contract/{contractId}")]
+        public async Task<IActionResult> GetServicesByContract(int contractId)
         {
             var services = await _context.services
-                .Include(s => s.operation)
-                .Include(s => s.resource)
-                .Include(s => s.article)
-                .Include(s => s.contract)
-                .Include(s => s.user)
+                .Where(s => s.contract_id == contractId)
+                .Include(s => s.resource)     // подтягиваем ресурс
+                .Include(s => s.operation)    // подтягиваем операцию
+                .Include(s => s.article)      // подтягиваем статью
                 .ToListAsync();
 
             return Ok(services);

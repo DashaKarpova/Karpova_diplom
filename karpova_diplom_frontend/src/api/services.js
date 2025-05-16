@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const getServices = async () => {
-const response = await axios.get('/api/services');
+export const getServicesByContract = async (contractId) => {
+const response = await axios.get(`/api/services/by-contract/${contractId}`);
 return response.data;
 };
 
