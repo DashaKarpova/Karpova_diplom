@@ -6,6 +6,7 @@ import CreateContractPage from './pages/CreateContractPage';
 /*import ContractsPage from './pages/ContractsPage';*/
 import MainPage from './pages/MainPage'; 
 import ServicesPage from './pages/Services'; 
+import ContractDetailsPage from './pages/ContractDetailsPage'; 
 
 
 
@@ -25,6 +26,8 @@ function App() {
         <Route path="/main" element={<MainPage />} />            
         <Route path="/create" element={<CreateContractPage />} />
         <Route path="/service" element={<ServicesPage />} />
+        <Route path="/contract/:id" element={<ContractDetailsPage />} />
+
       </Routes>
     </Router>
   );

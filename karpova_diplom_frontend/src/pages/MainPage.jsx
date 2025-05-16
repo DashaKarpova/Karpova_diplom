@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; 
 import { getContractors } from '../api/contractors';
 import { getObjects } from '../api/objects';
 import { getContracts } from '../api/contracts';
@@ -72,7 +73,7 @@ function MainPage() {
   </div>
 
 
-    <div className="center-panel">
+  <div className="center-panel">
   <div className="contracts-section">
     <h3>Договоры</h3>
     <div className="scrollable-table">
@@ -88,7 +89,11 @@ function MainPage() {
         <tbody>
           {contracts.map(contract => (
             <tr key={contract.id}>
-              <td>{contract.number_c}</td>
+              <td>
+                <Link to={`/contract/${contract.id}`}>
+                  {contract.number_c}
+                </Link>
+              </td>
               <td>{contract.name}</td>
               <td>{contract.valid_from?.split('T')[0]}</td>
               <td>{contract.valid_to?.split('T')[0]}</td>
