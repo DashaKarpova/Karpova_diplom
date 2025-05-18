@@ -45,6 +45,7 @@ function ContractDetailsPage() {
           <tr><th>Действует с</th><td>{contract.valid_from?.split('T')[0]}</td></tr>
           <tr><th>Действует по</th><td>{contract.valid_to?.split('T')[0]}</td></tr>
           <tr><th>Контрагент</th><td>{contract.contractor?.fullname}</td></tr>
+          <tr><th>Объект</th><td>{contract.objects.name}</td></tr>
           <tr><th>Номер лицензии</th><td>{contract.license_number}</td></tr>
           <tr><th>Дата выдачи лицензии</th><td>{contract.license_date?.split('T')[0]}</td></tr>
           <tr><th>Орган, выдавший лицензию</th><td>{contract.license?.name}</td></tr>

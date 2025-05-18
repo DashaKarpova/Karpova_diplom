@@ -18,7 +18,6 @@ function PricesChart() {
 
   return (
     <div className="prices-chart-container">
-      {/*  Блок таблицы СЛЕВА */}
       <div className="price-table-block">
         <h3>Список цен</h3>
         <div className="price-table-scroll">
@@ -41,11 +40,18 @@ function PricesChart() {
         </div>
       </div>
 
-      {/* График СПРАВА */}
       <div className="chart-block">
         <h3>Инфографика по ценам</h3>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={prices}>
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart
+            data={filteredPrices
+            .slice() // чтобы не мутировать исходный массив
+            .sort((a, b) => new Date(a.valid_from) - new Date(b.valid_from))
+            .map((p) => ({
+              date: p.valid_from?.split('T')[0],
+              price: p.price,
+            }))}
+            >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis dataKey="price" />
@@ -59,3 +65,5 @@ function PricesChart() {
 }
 
 export default PricesChart;
+
+

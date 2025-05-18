@@ -37,5 +37,7 @@ namespace Karpova_back_diplom.Models
         public User user { get; set; }
 
         public bool finished_action { get; set; }
+        public ICollection<Services> services { get; set; }
+
     }
 }

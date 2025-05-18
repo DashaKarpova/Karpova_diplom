@@ -53,12 +53,15 @@ namespace Karpova_back_diplom.Controllers
             return CreatedAtAction(nameof(GetContractById), new { id = contract.id }, contract);
         }
 
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Contract>> GetContractById(int id)
         {
             var contract = await _context.contracts
                 .Include(c => c.contractor)
                 .Include(c => c.license)
+                .Include(c=>c.objects)
                 .Include(c => c.user)
                 .FirstOrDefaultAsync(c => c.id == id);
 
@@ -80,6 +83,37 @@ namespace Karpova_back_diplom.Controllers
             return Ok(contracts);
         }
 
+        [HttpGet("filtered")]
+        public async Task<ActionResult<IEnumerable<Contract>>> GetFilteredContracts([FromQuery] ContractFilterDto filters)
+        {
+            var query = _context.contracts
+                .Include(c => c.services)
+                    .ThenInclude(s => s.operation)
+                .Include(c => c.services)
+                    .ThenInclude(s => s.resource)
+                .Include(c => c.services)
+                    .ThenInclude(s => s.article)
+                .Include(c => c.objects)
+                .AsQueryable();
+
+            if (filters.object_id.HasValue)
+                query = query.Where(c => c.object_id == filters.object_id.Value);
+
+            if (filters.operation_id.HasValue)
+                query = query.Where(c => c.services.Any(s => s.operation_id == filters.operation_id.Value));
+
+            if (filters.resource_id.HasValue)
+                query = query.Where(c => c.services.Any(s => s.resource_id == filters.resource_id.Value));
+
+            if (filters.article_id.HasValue)
+                query = query.Where(c => c.services.Any(s => s.article_id == filters.article_id.Value));
+
+            var result = await query.ToListAsync();
+
+            return Ok(result);
+        }
+
+
     }
 
     public class CreateContractDto
@@ -96,4 +130,13 @@ namespace Karpova_back_diplom.Controllers
         public int authority { get; set; }
         public int user_id { get; set; }
     }
+
+    public class ContractFilterDto
+    {
+        public int? object_id { get; set; }
+        public int? operation_id { get; set; }
+        public int? resource_id { get; set; }
+        public int? article_id { get; set; }
+    }
+
 }
