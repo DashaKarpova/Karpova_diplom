@@ -5,10 +5,12 @@ import { getArticles } from '../api/article';
 import { getOperations } from '../api/operation';
 import { createService } from '../api/services';
 import './ContractForm.css';
+import CheckAdminAccess from '../utils/checkAdminAccess'; 
 
 function ServicesPage() {
 const navigate = useNavigate();
-  const { id: contractId } = useParams(); // <-- получаем ID договора из URL
+
+const { id: contractId } = useParams(); // <-- получаем ID договора из URL
 
 const [resources, setResources] = useState([]);
 const [articles, setArticles] = useState([]);
@@ -28,7 +30,10 @@ const initialForm = {
     contract_id: contractId // <-- передаём как часть тела и для запроса
 };
 
+
+
 const [form, setForm] = useState(initialForm);
+
 
 useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +55,13 @@ useEffect(() => {
 
     fetchData();
 }, []);
+
+const isAdmin = JSON.parse(localStorage.getItem('admin_role'));
+
+if (!isAdmin) {
+    return <CheckAdminAccess />;
+}
+
 
 const handleChange = (e) => {
     const { name, value } = e.target;

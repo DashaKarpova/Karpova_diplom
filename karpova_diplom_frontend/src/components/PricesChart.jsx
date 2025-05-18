@@ -67,3 +67,4 @@ function PricesChart() {
 export default PricesChart;
 
 
+

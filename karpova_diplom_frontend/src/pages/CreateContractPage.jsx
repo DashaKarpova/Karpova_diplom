@@ -5,6 +5,7 @@ import { getObjects } from '../api/objects';  // Добавляем импорт
 import { createContract } from '../api/contracts';
 import { useNavigate } from 'react-router-dom';
 import './ContractForm.css';
+import CheckAdminAccess from '../utils/checkAdminAccess'; 
 
 function CreateContractPage() {
   const [contractors, setContractors] = useState([]);
@@ -27,11 +28,19 @@ function CreateContractPage() {
     finished: false,
   });
 
+
   useEffect(() => {
     getContractors().then(setContractors);
     getLicenses().then(setLicenses);
     getObjects().then(setObjects);  // Получаем список объектов
   }, []);
+
+  const isAdmin = JSON.parse(localStorage.getItem('admin_role'));
+  
+  if (!isAdmin) {
+      return <CheckAdminAccess />;
+  }
+  
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -71,6 +80,8 @@ function CreateContractPage() {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  
 
   return (
     <div className="contract-form-container">

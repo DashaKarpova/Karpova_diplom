@@ -1,21 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { createPrice } from '../api/prices'; // <-- не забудь создать файл
+import { createPrice } from '../api/prices';
+import CheckAdminAccess from '../utils/checkAdminAccess'; 
 import './ContractForm.css';
 
 function CreatePrices() {
 const navigate = useNavigate();
 const { id: contractId } = useParams();
 
-const initialForm = {
+const [form, setForm] = useState({
     price: '',
     valid_from: '',
     valid_to: '',
-    contract_id: contractId
-};
-
-const [form, setForm] = useState(initialForm);
+    contract_id: contractId,
+});
 const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+const isAdmin = JSON.parse(localStorage.getItem('admin_role'));
+
+if (!isAdmin) {
+    return <CheckAdminAccess />;
+}
 
 const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,7 +40,12 @@ const handleSubmit = async (e) => {
 };
 
 const handleCancel = () => {
-    setForm(initialForm);
+    setForm({
+    price: '',
+    valid_from: '',
+    valid_to: '',
+    contract_id: contractId,
+    });
 };
 
 const closeModal = () => {
@@ -84,15 +95,28 @@ return (
         </div>
 
         <div className="form-meta">
-        Изменено: {new Date().toLocaleString('ru-RU')}<br />
+        Изменено: {new Date().toLocaleString('ru-RU')}
+        <br />
         Изменил: {localStorage.getItem('fullName')}
         </div>
 
         <div className="form-actions">
-        <button type="submit" className="create-button">Сохранить</button>
-        <button type="button" onClick={handleCancel} className="cancel-button">Отмена</button>
-        <button type="button" onClick={() => navigate(-1)} className="back-button">Вернуться в договор</button>
-        <button type="button" onClick={() => navigate('/main')} className="go-to-main-button">Вернуться на главную</button>
+        <button type="submit" className="create-button">
+            Сохранить
+        </button>
+        <button type="button" onClick={handleCancel} className="cancel-button">
+            Отмена
+        </button>
+        <button type="button" onClick={() => navigate(-1)} className="back-button">
+            Вернуться в договор
+        </button>
+        <button
+            type="button"
+            onClick={() => navigate('/main')}
+            className="go-to-main-button"
+        >
+            Вернуться на главную
+        </button>
         </div>
     </form>
 
@@ -100,7 +124,9 @@ return (
         <div className="modal-overlay">
         <div className="modal-content">
             <h3>Цена успешно сохранена!</h3>
-            <button onClick={closeModal} className="close-modal-btn">Закрыть</button>
+            <button onClick={closeModal} className="close-modal-btn">
+            Закрыть
+            </button>
         </div>
         </div>
     )}

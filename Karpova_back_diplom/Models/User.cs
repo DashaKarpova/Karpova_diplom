@@ -9,6 +9,7 @@
         public string lastname { get; set; }
         public string firstname { get; set; }
         public string patronymic { get; set; }
+        public bool admin_role { get; set; }
         public string fullName
         {
             get
