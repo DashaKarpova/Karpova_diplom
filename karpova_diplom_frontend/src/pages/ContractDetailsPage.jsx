@@ -34,6 +34,20 @@ function ContractDetailsPage() {
   if (loadingContract) return <p>Загрузка договора...</p>;
   if (!contract) return <p>Договор не найден</p>;
 
+  const downloadWordReport = async (contractId) => {
+  const response = await axios.get(`/api/contracts/${contractId}/report`, {
+    responseType: 'blob'
+  });
+
+  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', `Отчёт_договор_${contractId}.docx`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
   return (
     <div className="contract-details-container">
       <h2>Карточка договора</h2>
@@ -96,6 +110,9 @@ function ContractDetailsPage() {
   <button className="contract-details-btn" onClick={() => navigate(`/`)}>
     Вернуться на главную
   </button>
+  <button onClick={() => downloadWordReport(contract.id)} className="contract-details-btn">
+  Скачать отчёт
+</button>
 </div>
 
     </div>

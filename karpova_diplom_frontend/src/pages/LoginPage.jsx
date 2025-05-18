@@ -15,11 +15,13 @@ function LoginPage({ onLogin }) {
     e.preventDefault();
     try {
       const user = await login(form.login, form.password);
+      
 
       // Сохраняем данные пользователя в localStorage
       localStorage.setItem('userId', user.id);
       localStorage.setItem('fullName', `${user.lastname} ${user.firstname} ${user.patronymic}`);
-
+      localStorage.setItem('admin_role', user.admin_role);
+  
       onLogin(); // флаг авторизации
       navigate('/create'); // переход на создание договора
     } catch {

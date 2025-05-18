@@ -14,6 +14,7 @@ function CreateContractPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
+
   const [form, setForm] = useState({
     name: '',
     number_c: '',
@@ -36,6 +37,7 @@ function CreateContractPage() {
   }, []);
 
   const isAdmin = JSON.parse(localStorage.getItem('admin_role'));
+  
   
   if (!isAdmin) {
       return <CheckAdminAccess />;

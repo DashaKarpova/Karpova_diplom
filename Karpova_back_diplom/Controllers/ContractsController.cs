@@ -2,6 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Karpova_back_diplom.Data;
 using Karpova_back_diplom.Models;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System.IO;
 
 namespace Karpova_back_diplom.Controllers
 {
@@ -113,6 +117,147 @@ namespace Karpova_back_diplom.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}/report")]
+        public async Task<IActionResult> GetContractReport(int id)
+        {
+            var contract = await _context.contracts
+                .Include(c => c.contractor)
+                .Include(c => c.license)
+                .Include(c => c.user)
+                .Include(c => c.objects)
+                .Include(c => c.services).ThenInclude(s => s.operation)
+                .Include(c => c.services).ThenInclude(s => s.resource)
+                .Include(c => c.services).ThenInclude(s => s.article)
+                .FirstOrDefaultAsync(c => c.id == id);
+
+            if (contract == null) return NotFound();
+
+            var prices = await _context.prices
+                .Where(p => p.contract_id == id)
+                .ToListAsync();
+
+            using var memStream = new MemoryStream();
+            using (var doc = WordprocessingDocument.Create(memStream, WordprocessingDocumentType.Document, true))
+            {
+                var mainPart = doc.AddMainDocumentPart();
+                mainPart.Document = new Document();
+                var body = new Body();
+
+                // Заголовок
+                body.Append(new Paragraph(new ParagraphProperties(
+                        new Justification { Val = JustificationValues.Center },
+                        new SpacingBetweenLines { After = "200" }),
+                    new Run(new RunProperties(new Bold(), new FontSize { Val = "28" }),
+                        new Text($"ДОГОВОР №{contract.number_c}"))));
+
+                // Основная информация
+                string[] info = {
+            $"Наименование: {contract.name}",
+            $"Контрагент: {contract.contractor?.fullname}",
+            $"Объект: {contract.objects?.name}",
+            $"Период действия: {contract.valid_from:dd.MM.yyyy} — {contract.valid_to:dd.MM.yyyy}",
+            $"Лицензия: №{contract.license_number} от {contract.license_date:dd.MM.yyyy}, выдана: {contract.license?.name}"
+        };
+
+                foreach (var line in info)
+                    body.Append(new Paragraph(new Run(new Text(line))));
+
+                body.Append(new Paragraph(new Run(new Text("")))); // отступ
+
+                // Таблица: Услуги
+                if (contract.services.Any())
+                {
+                    body.Append(new Paragraph(new Run(new Bold(), new Text("Услуги по договору:"))));
+                    var serviceTable = CreateStyledTable(
+                        new[] { "Операция", "Ресурс", "Статья", "Ед. изм.", "Наименование", "Цель" },
+                        contract.services.Select(s => new[]
+                        {
+                    s.operation?.operation_name,
+                    s.resource?.resource_name,
+                    s.article?.article_name,
+                    s.unit_of_measurement,
+                    s.name,
+                    s.aim
+                        }));
+                    body.Append(serviceTable);
+                }
+
+                // Таблица: Цены
+                if (prices.Any())
+                {
+                    body.Append(new Paragraph(new Run(new Text(""))));
+                    body.Append(new Paragraph(new Run(new Bold(), new Text("Цены по договору:"))));
+                    var priceTable = CreateStyledTable(
+                        new[] { "С", "По", "Цена (руб.)" },
+                        prices.Select(p => new[]
+                        {
+                    p.valid_from.ToString("dd.MM.yyyy"),
+                    p.valid_to.ToString("dd.MM.yyyy"),
+                    p.price.ToString()
+                        }));
+                    body.Append(priceTable);
+                }
+
+                // Пустая строка
+                body.Append(new Paragraph(new Run(new Text(""))));
+
+                // Внизу: кто изменил
+                body.Append(new Paragraph(new Run(new Text($"Изменено пользователем: {contract.user?.fullName ?? "-"}"))));
+                body.Append(new Paragraph(new Run(new Text($"Дата изменения: {contract.date_of_change:dd.MM.yyyy}"))));
+
+                mainPart.Document.Append(body);
+                mainPart.Document.Save();
+            }
+
+            return File(memStream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                $"Отчёт_договор_{contract.number_c}.docx");
+        }
+
+
+
+        private Table CreateStyledTable(IEnumerable<string> headers, IEnumerable<string[]> rows)
+        {
+            var table = new Table();
+
+            // Добавим границы таблицы
+            var tableProps = new TableProperties(
+                new TableBorders(
+                    new TopBorder { Val = BorderValues.Single, Size = 7 },
+                    new BottomBorder { Val = BorderValues.Single, Size = 7 },
+                    new LeftBorder { Val = BorderValues.Single, Size = 7 },
+                    new RightBorder { Val = BorderValues.Single, Size = 7 },
+                    new InsideHorizontalBorder { Val = BorderValues.Single, Size = 7 },
+                    new InsideVerticalBorder { Val = BorderValues.Single, Size = 7 }
+                )
+            );
+            table.AppendChild(tableProps);
+
+            // Заголовки
+            var headerRow = new TableRow();
+            foreach (var header in headers)
+            {
+                var cell = new TableCell(new Paragraph(
+                    new Run(new RunProperties(new Bold()), new Text(header ?? "-"))));
+                headerRow.Append(cell);
+            }
+            table.Append(headerRow);
+
+            // Строки данных
+            foreach (var rowValues in rows)
+            {
+                var row = new TableRow();
+                foreach (var val in rowValues)
+                {
+                    var cell = new TableCell(new Paragraph(new Run(new Text(val ?? "-"))));
+                    row.Append(cell);
+                }
+                table.Append(row);
+            }
+
+            return table;
+        }
+
 
     }
 
@@ -138,5 +283,7 @@ namespace Karpova_back_diplom.Controllers
         public int? resource_id { get; set; }
         public int? article_id { get; set; }
     }
+
+
 
 }
